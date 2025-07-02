@@ -25,7 +25,7 @@ export default tseslint.config([
       'no-debugger': 'warn',
       'eqeqeq': ['error', 'always'],
       // 缩进（2空格）
-      indent: ['error', 4, { SwitchCase: 1, ignoredNodes: ['JSXElement'] }],
+      // indent: ['error', 4],
   
       // 行尾分号
       semi: ['error', 'always'],
@@ -68,8 +68,8 @@ export default tseslint.config([
       'react/react-in-jsx-scope': 'off', // React 17+ 不需要手动导入 React
       'react/jsx-key': 'error',
       'react/jsx-curly-brace-presence': ['warn', { props: 'never' }],
-      'react/jsx-indent': ['error', 2],
-      'react/jsx-indent-props': ['error', 2],
+      'react/jsx-indent': ['error', 4],
+      'react/jsx-indent-props': ['error', 4],
       'react/jsx-closing-bracket-location': ['error', 'line-aligned'],
       'react/jsx-tag-spacing': [
         'error',
@@ -83,6 +83,7 @@ export default tseslint.config([
       'react/jsx-child-element-spacing': 'error',
       'react/self-closing-comp': ['error', { component: true, html: true }],
       'react/void-dom-elements-no-children': 'error',
+      "react/jsx-max-props-per-line": ["error", { maximum: 1, when: "multiline" }],
       'react/jsx-wrap-multilines': [
         'error',
         {

@@ -1,0 +1,46 @@
+.dialogInput {
+    position: absolute;
+    top: 20%;
+    left: 50%;
+    transform: translateX(-50%);
+    .textArea {
+        width: 800px;
+        height: 140px;
+        border-radius: 16px;
+        padding: 15px;
+        font-size: 16px;
+    }
+    .textArea:focus {
+        border: 1px solid #d9d9d9;
+        box-shadow: none;
+    }
+    .textArea:hover {
+        border: 1px solid #d9d9d9;
+    }
+    .sendBtn {
+        position: absolute;
+        bottom: 10px;
+        right: 20px;
+        background-color: #0057ff;
+        width: 32px;
+        height: 32px;
+        border-radius: 18px;
+        color: #FFFFFF;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+    }
+    .sendBtn:hover {
+        background-color: #004ad9;
+    }
+    .disableBtn {
+        background-color: rgba(0,0,0,0.15);
+        color: rgba(28,31,35,0.35);
+        cursor: not-allowed;
+    }
+
+    .disableBtn:hover {
+        background-color: rgba(0,0,0,0.15);
+    }
+}
