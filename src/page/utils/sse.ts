@@ -4,11 +4,11 @@ interface CallBackMap {
     close: () => void;
 }
 
-interface Major {
+export interface Major {
     id: string;
 }
 
-interface Message {
+export interface Message {
     content: string;
 }
 
@@ -18,8 +18,10 @@ interface ParseChunk {
 }
 
 interface SendData {
-    model: string;
+    message: string;
 }
+
+let abortController = new AbortController();
 
 const connectSSE = async (url: string, params: SendData, callbackMap:CallBackMap) => {
     try {
@@ -31,6 +33,7 @@ const connectSSE = async (url: string, params: SendData, callbackMap:CallBackMap
             },
             method: 'POST',
             body: JSON.stringify(params),
+            signal: abortController.signal,
         });
 
         if (!res.ok) {
@@ -68,6 +71,11 @@ const connectSSE = async (url: string, params: SendData, callbackMap:CallBackMap
     }
 };
 
+const stopSSE = () => {
+    abortController.abort(); // 取消 fetch 请求
+    abortController = new AbortController();
+}
+
 const parseChunk = (chunk: string): ParseChunk => {
     let type = '';
     const lines = chunk.split('\n');
@@ -94,4 +102,5 @@ const parseChunk = (chunk: string): ParseChunk => {
 
 export {
     connectSSE,
+    stopSSE,
 };

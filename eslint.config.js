@@ -27,9 +27,6 @@ export default tseslint.config([
       // 缩进（2空格）
       // indent: ['error', 4],
   
-      // 行尾分号
-      semi: ['error', 'always'],
-  
       // 引号风格（单引号）
       quotes: ['error', 'single', { avoidEscape: true }],
   

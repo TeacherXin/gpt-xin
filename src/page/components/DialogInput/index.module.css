@@ -39,8 +39,24 @@
         color: rgba(28,31,35,0.35);
         cursor: not-allowed;
     }
+    .loading {
+        color: #000000;
+        background-color: #FFFFFF;
+        &:hover {
+            background-color: rgba(0,0,0,0.15);
+        }
+        cursor: pointer;
+        svg {
+            width: 24px;
+            height: 24px;
+        }
+    }
 
     .disableBtn:hover {
         background-color: rgba(0,0,0,0.15);
     }
+}
+
+.bottomInput {
+    top: 80%;
 }

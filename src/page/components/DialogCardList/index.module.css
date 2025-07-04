@@ -1,0 +1,47 @@
+.dialogCardList {
+    width: 800px;
+    padding-top: 30px;
+    .dialogCard {
+        width: 100%;
+        color: rgba(0,0,0,0.85);
+        font-size: 16px;
+        line-height: 28px;
+        .question {
+            margin-bottom: 30px;
+            width: 100%;
+            display: flex;
+            justify-content: flex-end;
+            p {
+                border-radius: 12px;
+                background-color: rgba(0,0,0,.04);
+                width: max-content;
+                padding: 9px 16px 9px 16px;
+            }
+        }
+        .answer {
+            margin-bottom: 30px;
+        }
+    }
+}
+
+.scrollContainer {
+    width: 100%;
+    overflow: scroll;
+    height: 75%;
+    display: flex;
+    justify-content: center;
+    &::-webkit-scrollbar {
+        width: 5px !important; /* 设置滚动条的宽度 */
+    }
+
+    /* 滚动条内部滑块 */
+    &::-webkit-scrollbar-thumb {
+        background: #0000003a; /* 设置滑块的颜色 */
+        border-radius: 2px; /* 设置滑块的圆角 */
+    }
+
+    /* 滚动条轨道（背景） */
+    &::-webkit-scrollbar-track {
+        background-color: transparent; /* 设置轨道的背景颜色 */
+    }
+}

@@ -5,4 +5,5 @@
 
 .page {
     display: flex;
+    overflow: hidden;
 }
