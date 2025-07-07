@@ -13,6 +13,7 @@ interface DialogCardListStore {
     addDialogCard: (card: DialogCard) => void;
     changeLastAnswer: (question: string) => void;
     changeLastId: (id: string) => void;
+    clear: () => void;
 }
 
 export const useDialogCardListStore = create<DialogCardListStore>((set) => (
@@ -37,5 +38,6 @@ export const useDialogCardListStore = create<DialogCardListStore>((set) => (
             }
             return { dialogCardList: [...state.dialogCardList] };
         }),
+        clear: () => set(() => ({ dialogCardList: [], sessionId: '' })),
     }
 ));

@@ -4,7 +4,7 @@ import SendSvg from './assets/sendSvg.js';
 import LoadingSvg from './assets/loadingSvg.js';
 import classNames from 'classnames';
 import { useDialogInputStore } from './store.js';
-import { stopSSE, connectSSE, type Major, type Message } from '../../utils/sse.js';
+import { stopSSE, connectSSE, type Major, type Message, type SendData } from '../../utils/sse.js';
 import { useDialogCardListStore } from '../DialogCardList/store.js';
 
 const { TextArea } = Input;
@@ -22,7 +22,7 @@ const DialogInput: React.FunctionComponent = () => {
             return;
         }
         const url = 'http://localhost:3002/chat';
-        const data = {
+        const data: SendData = {
             message: inputStore.inputValue,
         };
         dialogCardListStore.addDialogCard({
@@ -40,7 +40,13 @@ const DialogInput: React.FunctionComponent = () => {
         };
         const majorCallback = (major: Major) => {
             dialogCardListStore.changeLastId(major.id);
+            if (major.sessionId) {
+                dialogCardListStore.setSessionId(major.sessionId);
+            }
         };
+        if (dialogCardListStore.sessionId) {
+            data.sessionId = dialogCardListStore.sessionId;
+        }
         connectSSE(url, data, {
             message: messageCallback,
             major: majorCallback,
@@ -50,7 +56,7 @@ const DialogInput: React.FunctionComponent = () => {
     return (
         <div className={classNames({
             [styles.dialogInput]: true,
-            [styles.bottomInput]: dialogCardListStore.dialogCardList,
+            [styles.bottomInput]: dialogCardListStore.dialogCardList?.length,
         })}
         >
             <TextArea onChange={(e) => {

@@ -1,11 +1,17 @@
+import { useDialogCardListStore } from '../DialogCardList/store';
 import styles from './index.module.css';
 
 
 const Sidebar: React.FunctionComponent = () => {
+    const dialogCardListStore = useDialogCardListStore();
+
+    const newSessionClick = () => {
+        dialogCardListStore.clear();
+    }
 
     return (
         <div className={styles.sidebar}>
-            <div className={styles.newBtn}>新建对话</div>
+            <div className={styles.newBtn} onClick={newSessionClick}>新建对话</div>
         </div>
     );
 };

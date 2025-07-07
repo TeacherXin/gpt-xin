@@ -6,6 +6,7 @@ interface CallBackMap {
 
 export interface Major {
     id: string;
+    sessionId: string;
 }
 
 export interface Message {
@@ -17,8 +18,9 @@ interface ParseChunk {
     message?: Message;
 }
 
-interface SendData {
+export interface SendData {
     message: string;
+    sessionId?: string;
 }
 
 let abortController = new AbortController();

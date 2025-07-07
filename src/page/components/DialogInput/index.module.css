@@ -3,6 +3,8 @@
     top: 20%;
     left: 50%;
     transform: translateX(-50%);
+    transition-property: top;
+    transition-duration: .3s;
     .textArea {
         width: 800px;
         height: 140px;
@@ -59,4 +61,6 @@
 
 .bottomInput {
     top: 80%;
+    transition-property: top;
+    transition-duration: .3s;
 }
