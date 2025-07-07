@@ -5,7 +5,7 @@
         width: 100%;
         color: rgba(0,0,0,0.85);
         font-size: 16px;
-        line-height: 28px;
+        line-height: 35px;
         .question {
             margin-bottom: 30px;
             width: 100%;
@@ -44,4 +44,19 @@
     &::-webkit-scrollbar-track {
         background-color: transparent; /* 设置轨道的背景颜色 */
     }
+}
+
+.answer {
+    pre {
+        margin-bottom: 15px;
+        margin-top: 15px;
+    }
+    ol, ul {
+        margin-left: 20px;
+    }
+}
+
+.codeBlock {
+    border-radius: 12px;
+    padding: 20px !important;
 }
