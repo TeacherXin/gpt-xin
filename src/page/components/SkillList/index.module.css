@@ -1,0 +1,26 @@
+.skillList {
+    margin-top: 20px;
+    position: absolute;
+    .pictureItem {
+        width: 98px;
+        height: 42px;
+        color: #ff9500;
+        padding-left: 12px;
+        display: flex;
+        align-items: center;
+        border-radius: 32px;
+        border: 1px solid rgba(0,0,0,.08);
+        cursor: pointer;
+        p {
+            color: #000000;
+            font-size: 14px;
+            margin-left: 10px;
+        }
+        &:hover {
+            background :rgba(0, 0, 0, 0.04);
+        }
+    }
+    .selected {
+        background :rgba(0, 0, 0, 0.04);
+    }
+}

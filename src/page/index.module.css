@@ -3,7 +3,14 @@
     margin: 0;
 }
 
+body {
+    position: fixed;
+    width: 100vw;
+}
+
 .page {
     display: flex;
     overflow: hidden;
+    position: relative;
+    width: 100%;
 }

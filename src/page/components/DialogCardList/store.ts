@@ -4,6 +4,7 @@ interface DialogCard {
     question: string;
     answer: string;
     cardId: string;
+    isPicture?: boolean;
 }
 
 interface DialogCardListStore {

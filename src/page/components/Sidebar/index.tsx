@@ -1,12 +1,15 @@
 import { useDialogCardListStore } from '../DialogCardList/store';
+import { useSkillStore } from '../SkillList/store';
 import styles from './index.module.css';
 
 
 const Sidebar: React.FunctionComponent = () => {
     const dialogCardListStore = useDialogCardListStore();
+    const skillStore = useSkillStore();
 
     const newSessionClick = () => {
         dialogCardListStore.clear();
+        skillStore.setSelectedSkill('');
     }
 
     return (
