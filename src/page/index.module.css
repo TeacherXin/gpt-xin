@@ -3,6 +3,10 @@
     margin: 0;
 }
 
+a:hover {
+    color: #0057ff;
+}
+
 body {
     position: fixed;
     width: 100vw;

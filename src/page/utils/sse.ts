@@ -1,7 +1,12 @@
-interface CallBackMap {
+export interface CallBackMap {
     major: (data: Major) => void;
     message: (data: Message) => void;
     close: () => void;
+    source?: (data: Source) => void
+}
+
+export interface Source {
+    html: string;
 }
 
 export interface Major {
@@ -16,11 +21,13 @@ export interface Message {
 interface ParseChunk {
     major?: Major;
     message?: Message;
+    source?: Source;
 }
 
 export interface SendData {
     message: string;
     sessionId?: string;
+    type?: 'html' | ''
 }
 
 let abortController = new AbortController();
@@ -58,14 +65,15 @@ const connectSSE = async (url: string, params: SendData, callbackMap:CallBackMap
                 break;
             }
             const chunk = decoder.decode(value);
-            console.log(chunk);
             const data = parseChunk(chunk);
-            console.log(data);
             if (data.major) {
                 callbackMap.major(data.major);
             }
             if (data.message) {
                 callbackMap.message(data.message);
+            }
+            if (data.source) {
+                callbackMap.source!(data.source);
             }
         }
     } catch (error) {
@@ -91,10 +99,16 @@ const parseChunk = (chunk: string): ParseChunk => {
             type = 'message';
             continue;
         }
+        if (lines[i].startsWith('event: source')) {
+            type = 'source';
+            continue;
+        }
         if (lines[i].startsWith('data: ')) {
             if (type === 'message' && eventData[type]) {
                 eventData[type]!.content += JSON.parse(lines[i].split(': ')[1]).content;
             } else if (type === 'major' || type === 'message') {
+                eventData[type] = JSON.parse(lines[i].split(': ')[1]);
+            } else if (type === 'source') {
                 eventData[type] = JSON.parse(lines[i].split(': ')[1]);
             }
         }

@@ -5,6 +5,7 @@ interface DialogCard {
     answer: string;
     cardId: string;
     isPicture?: boolean;
+    htmlUrl?: string; 
 }
 
 interface DialogCardListStore {
@@ -14,6 +15,7 @@ interface DialogCardListStore {
     addDialogCard: (card: DialogCard) => void;
     changeLastAnswer: (question: string) => void;
     changeLastId: (id: string) => void;
+    changeLastHtmlUrl: (url: string) => void;
     clear: () => void;
 }
 
@@ -36,6 +38,13 @@ export const useDialogCardListStore = create<DialogCardListStore>((set) => (
             const dialogCard = state.dialogCardList[state.dialogCardList.length - 1];
             if (dialogCard) {
                 dialogCard.cardId = id;
+            }
+            return { dialogCardList: [...state.dialogCardList] };
+        }),
+        changeLastHtmlUrl: (url: string) => set((state) => {
+            const dialogCard = state.dialogCardList[state.dialogCardList.length - 1];
+            if (dialogCard) {
+                dialogCard.htmlUrl = url;
             }
             return { dialogCardList: [...state.dialogCardList] };
         }),

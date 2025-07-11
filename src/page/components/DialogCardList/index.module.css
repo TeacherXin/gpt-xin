@@ -68,6 +68,10 @@
     ol, ul {
         margin-left: 20px;
     }
+    a {
+        text-decoration: none;
+        color: rgba(0,87,255,0.8);
+    }
 }
 
 .codeBlock {

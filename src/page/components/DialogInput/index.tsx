@@ -4,7 +4,7 @@ import SendSvg from './assets/sendSvg.js';
 import LoadingSvg from './assets/loadingSvg.js';
 import classNames from 'classnames';
 import { useDialogInputStore } from './store.js';
-import { stopSSE, connectSSE, type Major, type Message, type SendData } from '../../utils/sse.js';
+import { stopSSE, connectSSE, type Major, type Message, type SendData, type CallBackMap } from '../../utils/sse.js';
 import { useDialogCardListStore } from '../DialogCardList/store.js';
 import SkillList from '../SkillList/index.js';
 import axios from 'axios';
@@ -16,7 +16,13 @@ let controller = new AbortController();
 
 const DialogInput: React.FunctionComponent = () => {
     const inputStore = useDialogInputStore();
-    const dialogCardListStore = useDialogCardListStore();
+    const dialogCardList = useDialogCardListStore((state) => state.dialogCardList);
+    const sessionId = useDialogCardListStore((state) => state.sessionId);
+    const changeLastHtmlUrl = useDialogCardListStore((state) => state.changeLastHtmlUrl);
+    const addDialogCard = useDialogCardListStore((state) => state.addDialogCard);
+    const changeLastAnswer = useDialogCardListStore((state) => state.changeLastAnswer);
+    const changeLastId = useDialogCardListStore((state) => state.changeLastId);
+    const setSessionId = useDialogCardListStore((state) => state.setSessionId);
     const skillStore = useSkillStore();
     const sendData = () => {
         if (skillStore.selectedSkill === 'picture') {
@@ -35,7 +41,7 @@ const DialogInput: React.FunctionComponent = () => {
         const data: SendData = {
             message: inputStore.inputValue,
         };
-        dialogCardListStore.addDialogCard({
+        addDialogCard({
             question: inputStore.inputValue,
             answer: '',
             cardId: '',
@@ -43,30 +49,37 @@ const DialogInput: React.FunctionComponent = () => {
         inputStore.setInputValue('');
         inputStore.setInputLoading(true);
         const messageCallback = (message: Message) => {
-            dialogCardListStore.changeLastAnswer(message.content);
+            changeLastAnswer(message.content);
         };
         const closeCallback = () => {
             inputStore.setInputLoading(false);
         };
         const majorCallback = (major: Major) => {
-            dialogCardListStore.changeLastId(major.id);
+            changeLastId(major.id);
             if (major.sessionId) {
-                dialogCardListStore.setSessionId(major.sessionId);
+                setSessionId(major.sessionId);
             }
         };
-        if (dialogCardListStore.sessionId) {
-            data.sessionId = dialogCardListStore.sessionId;
+        if (sessionId) {
+            data.sessionId = sessionId;
         }
-        connectSSE(url, data, {
+        const callbackMap: CallBackMap =  {
             message: messageCallback,
             major: majorCallback,
             close: closeCallback,
-        });
+        }
+        if (skillStore.selectedSkill === 'html') {
+            data.type = 'html';
+            callbackMap.source = (source) => {
+                changeLastHtmlUrl(source.html);
+            };
+        }
+        connectSSE(url, data, callbackMap);
     };
 
     const sendDataByPicture = (message: string) => {
         inputStore.setInputValue('');
-        dialogCardListStore.addDialogCard({
+        addDialogCard({
             question: message,
             answer: '',
             cardId: '',
@@ -76,8 +89,8 @@ const DialogInput: React.FunctionComponent = () => {
         axios.post('http://localhost:3002/picture', {message}, {signal: controller.signal}).then(res => {
             if (res.data.data && res.data.code === 0) { 
                 const { data, cardId } = res.data; 
-                dialogCardListStore.changeLastAnswer(data); 
-                dialogCardListStore.changeLastId(cardId);
+                changeLastAnswer(data); 
+                changeLastId(cardId);
                 inputStore.setInputLoading(false);
             }
         })
@@ -85,7 +98,7 @@ const DialogInput: React.FunctionComponent = () => {
     return (
         <div className={classNames({
             [styles.dialogInput]: true,
-            [styles.bottomInput]: dialogCardListStore.dialogCardList?.length,
+            [styles.bottomInput]: dialogCardList?.length,
         })}
         >
             <TextArea onChange={(e) => {
@@ -94,7 +107,7 @@ const DialogInput: React.FunctionComponent = () => {
                 value={inputStore.inputValue}
                 className={styles.textArea}
             />
-            {dialogCardListStore.dialogCardList.length === 0 && <SkillList />}
+            {dialogCardList.length === 0 && <SkillList />}
             {
                 !inputStore.inputLoading ? (
                     <div 

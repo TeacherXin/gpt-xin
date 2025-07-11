@@ -1,3 +1,4 @@
+import { useRef, useEffect } from 'react';
 import styles from './index.module.css';
 import { useDialogCardListStore } from './store';
 import ReactMarkDown from 'react-markdown';
@@ -8,8 +9,18 @@ import { Spin } from 'antd';
 
 
 const DialogCardList: React.FunctionComponent = () => {
-    const dialogCardListStore = useDialogCardListStore();
-    const dialogInputStore = useDialogInputStore();
+    const dialogCardList = useDialogCardListStore((state) => state.dialogCardList);
+    const inputLoading = useDialogInputStore((state) => state.inputLoading);
+    const scrollContainerRef = useRef<HTMLDivElement>(null);
+
+    useEffect(() => {
+        if (scrollContainerRef.current && inputLoading) {
+            const scrollHeight = scrollContainerRef.current.scrollHeight;
+            scrollContainerRef.current!.scrollTop = scrollHeight+ 200;
+        }
+    }, [dialogCardList[dialogCardList.length - 1]?.answer,
+        dialogCardList[dialogCardList.length - 1]?.htmlUrl,
+        inputLoading])
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const getCode = (params: any) => {
@@ -34,9 +45,9 @@ const DialogCardList: React.FunctionComponent = () => {
     
 
     return (
-        <div className={styles.scrollContainer}>
+        <div ref={scrollContainerRef} className={styles.scrollContainer}>
             <div className={styles.dialogCardList}>
-                {dialogCardListStore.dialogCardList.map((item, index) => {
+                {dialogCardList.map((item, index) => {
                     return (
                         <div className={styles.dialogCard} key={item.cardId}>
                             <div className={styles.question}>
@@ -46,7 +57,7 @@ const DialogCardList: React.FunctionComponent = () => {
                                 item.isPicture ? (
                                     <div key={item.cardId} className={styles.pictureItem}>
                                         {
-                                            dialogInputStore.inputLoading && index === dialogCardListStore.dialogCardList.length - 1 ? 
+                                            inputLoading && index === dialogCardList.length - 1 ? 
                                                 <Spin className={styles.spin} /> : 
                                                 <img src={item.answer} alt="" />
                                         }
@@ -56,6 +67,7 @@ const DialogCardList: React.FunctionComponent = () => {
                                         <ReactMarkDown components={{ code: getCode }}>
                                             {item.answer}
                                         </ReactMarkDown>
+                                        {item.htmlUrl && <a href={item.htmlUrl} target="_blank" rel="noreferrer">查看完整网页</a>}
                                     </div>
                                 )
                             }
