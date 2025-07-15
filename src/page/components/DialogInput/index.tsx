@@ -37,7 +37,7 @@ const DialogInput: React.FunctionComponent = () => {
         if (!inputStore.inputValue) {
             return;
         }
-        const url = 'http://localhost:3002/chat';
+        const url = '/api/chat';
         const data: SendData = {
             message: inputStore.inputValue,
         };
@@ -86,7 +86,7 @@ const DialogInput: React.FunctionComponent = () => {
             isPicture: true,
         });
         inputStore.setInputLoading(true);
-        axios.post('http://localhost:3002/picture', {message}, {signal: controller.signal}).then(res => {
+        axios.post('/api/picture', {message}, {signal: controller.signal}).then(res => {
             if (res.data.data && res.data.code === 0) { 
                 const { data, cardId } = res.data; 
                 changeLastAnswer(data); 

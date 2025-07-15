@@ -64,9 +64,14 @@ const DialogCardList: React.FunctionComponent = () => {
                                     </div>
                                 ) : (
                                     <div className={styles.answer}>
-                                        <ReactMarkDown components={{ code: getCode }}>
-                                            {item.answer}
-                                        </ReactMarkDown>
+                                        {
+                                            inputLoading && !item.answer && index === dialogCardList.length - 1 ?
+                                                <Spin className={styles.spin} /> : (
+                                                    <ReactMarkDown components={{ code: getCode }}>
+                                                        {item.answer}
+                                                    </ReactMarkDown>
+                                                )
+                                        }        
                                         {item.htmlUrl && <a href={item.htmlUrl} target="_blank" rel="noreferrer">查看完整网页</a>}
                                     </div>
                                 )
