@@ -1,6 +1,6 @@
 import classNames from 'classnames';
-import PictureSvg from './assets/pictureSvg';
-import HtmlSvg from './assets/htmlSvg';
+import PictureSvg from './assets/picture.svg?react';
+import HtmlSvg from './assets/html.svg?react';
 import styles from './index.module.css';
 import { useSkillStore } from './store';
 import catImg from './assets/cat.png';

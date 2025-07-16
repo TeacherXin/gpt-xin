@@ -1,7 +1,7 @@
 import styles from './index.module.css';
 import { Input, Tooltip } from 'antd';
-import SendSvg from './assets/sendSvg.js';
-import LoadingSvg from './assets/loadingSvg.js';
+import SendSvg from './assets/send.svg?react';
+import LoadingSvg from './assets/loading.svg?react';
 import classNames from 'classnames';
 import { useDialogInputStore } from './store.js';
 import { stopSSE, connectSSE, type Major, type Message, type SendData, type CallBackMap } from '../../utils/sse.js';
