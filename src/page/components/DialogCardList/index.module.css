@@ -74,6 +74,24 @@
     }
 }
 
+.answerLoading {
+    >:not(ol):not(ul):not(pre):last-child:after,
+    >ol:last-child>li:last-child:after,
+    >pre:last-child tr:last-child td:last-child:after,
+    >ul:last-child>li:last-child:after {
+        transition: visibility 167ms opacity cubic-bezier(0.33, 0.00, 0.67, 1.00);
+        content: "";
+        transform: translate(-380px, 2px);
+        display: inline-block;
+        top: 50%;
+        width: 380px;
+        height: 16px;
+        background: linear-gradient(to right, rgba(255, 255, 255, 0), rgb(255, 255, 255, 1));
+        margin-left: 3px;
+        vertical-align: baseline;
+    }
+}
+
 .codeBlock {
     border-radius: 12px;
     padding: 20px !important;

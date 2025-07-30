@@ -6,6 +6,7 @@ import SyntaxHighlighter from 'react-syntax-highlighter';
 import { hybrid } from 'react-syntax-highlighter/dist/esm/styles/hljs';
 import { useDialogInputStore } from '../DialogInput/store';
 import { Spin } from 'antd';
+import classNames from 'classnames';
 
 
 const DialogCardList: React.FunctionComponent = () => {
@@ -63,7 +64,11 @@ const DialogCardList: React.FunctionComponent = () => {
                                         }
                                     </div>
                                 ) : (
-                                    <div className={styles.answer}>
+                                    <div className={classNames({
+                                        [styles.answer]: true,
+                                        [styles.answerLoading]: inputLoading && item.answer && index === dialogCardList.length - 1,
+                                    })}
+                                    >
                                         {
                                             inputLoading && !item.answer && index === dialogCardList.length - 1 ?
                                                 <Spin className={styles.spin} /> : (
