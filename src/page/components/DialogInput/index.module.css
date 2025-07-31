@@ -5,19 +5,45 @@
     transform: translateX(-50%);
     transition-property: top;
     transition-duration: .3s;
+    border: 1px solid rgba(0,0,0,.12);
+    border-radius: 16px;
+    padding: 15px 15px 50px 15px;
+    &:hover {
+        border: 1px solid #d9d9d9;
+    }
     .textArea {
-        width: 800px;
-        height: 140px;
+        width: 770px;
+        height: 80px;
         border-radius: 16px;
-        padding: 15px;
         font-size: 16px;
+        border: none;
+        resize: none;
     }
     .textArea:focus {
-        border: 1px solid #d9d9d9;
+        border: none;
         box-shadow: none;
     }
-    .textArea:hover {
-        border: 1px solid #d9d9d9;
+    /* 针对 textarea 的滚动条整体样式 */
+    textarea::-webkit-scrollbar {
+        width: 4px; /* 垂直滚动条宽度 */
+        height: 4px; /* 水平滚动条高度 */
+    }
+
+    /* 滚动条轨道样式 */
+    textarea::-webkit-scrollbar-track {
+        background: #FFFFFF; /* 轨道背景色 */
+        border-radius: 4px; /* 轨道圆角 */
+    }
+
+    /* 滚动条滑块样式 */
+    textarea::-webkit-scrollbar-thumb {
+        background: #c1c1c1; /* 滑块颜色 */
+        border-radius: 4px; /* 滑块圆角 */
+    }
+
+    /* 鼠标悬停时的滑块样式 */
+        textarea::-webkit-scrollbar-thumb:hover {
+        background: #a8a8a8; /* 悬停时滑块颜色 */
     }
     .sendBtn {
         position: absolute;
@@ -57,10 +83,40 @@
     .disableBtn:hover {
         background-color: rgba(0,0,0,0.15);
     }
+
+    .upload {
+        position: absolute;
+        left: 20px;
+        bottom: 10px;
+        width: 32px;
+        height: 32px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border: 1px solid rgba(0,0,0,.08);
+        color: rgba(0,0,0,0.85);
+        border-radius: 8px;
+        cursor: pointer;
+        svg {
+            width: 16px;
+            height: 16px;
+            transform: translateY(2px);
+        }
+        &:hover {
+            background-color: rgba(0,0,0,.04);
+        }
+        :global(.ant-upload-list) {
+            display: none;
+        }
+    }
 }
 
 .bottomInput {
     top: 80%;
     transition-property: top;
     transition-duration: .3s;
+}
+
+.hasFileList {
+    padding-top: 70px;
 }

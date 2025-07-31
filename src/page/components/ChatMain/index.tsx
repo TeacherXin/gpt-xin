@@ -8,7 +8,9 @@ const ChatMain: React.FunctionComponent = () => {
     const isOpen = useSidebarStore((state) => state.isOpen);
     return (
         <div className={styles.chatMain}>
-            {!isOpen && <SidebarHeader /> }
+            <div className={styles.sidebarHeader}>
+                {!isOpen && <SidebarHeader /> }
+            </div>
             <DialogCardList />
             <DialogInput />
         </div>

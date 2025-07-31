@@ -11,7 +11,7 @@ import tetrisImg from './assets/tetris.png';
 import snakeImg from './assets/snake.png';
 import timeImg from './assets/time.png';
 import studentImg from './assets/student.png'
-import { useDialogInputStore } from '../DialogInput/store';
+import { useDialogInputStore } from '../../store';
 interface SkillItem {
     id: 'picture' | 'html';
     name: string;

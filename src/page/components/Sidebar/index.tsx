@@ -1,6 +1,6 @@
 import classNames from 'classnames';
 import { useDialogCardListStore } from '../DialogCardList/store';
-import { useSkillStore } from '../SkillList/store';
+import { useSkillStore } from '../DialogInput/components/SkillList/store';
 import logo from './assets/Logo.png';
 import SwitchSvg from './assets/switch.svg?react';
 import styles from './index.module.css';

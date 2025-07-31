@@ -1,21 +1,27 @@
 import styles from './index.module.css';
-import { Input, Tooltip } from 'antd';
+import { Input, Tooltip, Upload } from 'antd';
 import SendSvg from './assets/send.svg?react';
+import UploadSvg from './assets/upload.svg?react';
 import LoadingSvg from './assets/loading.svg?react';
 import classNames from 'classnames';
 import { useDialogInputStore } from './store.js';
 import { stopSSE, connectSSE, type Major, type Message, type SendData, type CallBackMap } from '../../utils/sse.js';
 import { useDialogCardListStore } from '../DialogCardList/store.js';
-import SkillList from '../SkillList/index.js';
+import SkillList from './components/SkillList/index.js';
 import axios from 'axios';
-import { useSkillStore } from '../SkillList/store.js';
+import { useSkillStore } from './components/SkillList/store.js';
+import FileList from './components/FileList/index.js';
+import { useFilListStore } from './components/FileList/store.js';
 
 const { TextArea } = Input;
 let controller = new AbortController();
 
 
 const DialogInput: React.FunctionComponent = () => {
+    // 输入框相关store
     const inputStore = useDialogInputStore();
+
+    // 对话流相关store
     const dialogCardList = useDialogCardListStore((state) => state.dialogCardList);
     const sessionId = useDialogCardListStore((state) => state.sessionId);
     const changeLastHtmlUrl = useDialogCardListStore((state) => state.changeLastHtmlUrl);
@@ -23,7 +29,22 @@ const DialogInput: React.FunctionComponent = () => {
     const changeLastAnswer = useDialogCardListStore((state) => state.changeLastAnswer);
     const changeLastId = useDialogCardListStore((state) => state.changeLastId);
     const setSessionId = useDialogCardListStore((state) => state.setSessionId);
+
+    // 技能相关store
     const skillStore = useSkillStore();
+    
+    // 文件相关store
+    const fileList = useFilListStore((state) => state.fileList);
+    const setFileList = useFilListStore((state) => state.setFileList);
+
+    const handleBeforeUpload = (file: File) => {
+        // 在这里可以获取到完整的file信息
+        setFileList([...fileList, file]);
+        
+        // 返回false阻止默认上传行为
+        return false;
+    };
+
     const sendData = () => {
         if (skillStore.selectedSkill === 'picture') {
             sendDataByPicture(inputStore.inputValue);
@@ -99,6 +120,7 @@ const DialogInput: React.FunctionComponent = () => {
         <div className={classNames({
             [styles.dialogInput]: true,
             [styles.bottomInput]: dialogCardList?.length,
+            [styles.hasFileList]: fileList?.length > 0,
         })}
         >
             <TextArea onChange={(e) => {
@@ -108,6 +130,10 @@ const DialogInput: React.FunctionComponent = () => {
                 className={styles.textArea}
             />
             {dialogCardList.length === 0 && <SkillList />}
+            {fileList.length > 0 && <FileList />}
+            <Upload className={styles.upload} beforeUpload={handleBeforeUpload}>
+                <UploadSvg />
+            </Upload>
             {
                 !inputStore.inputLoading ? (
                     <div 

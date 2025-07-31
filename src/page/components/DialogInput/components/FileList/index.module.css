@@ -1,0 +1,49 @@
+.fileList {
+    position: absolute;
+    left: 0;
+    top: 10px;
+    width: calc(100% - 40px);
+    padding-left: 20px;
+    padding-right: 20px;
+    display: flex;
+    .fileItem {
+        width: 172px;
+        height: 35px;
+        padding: 8px;
+        background-color: rgba(0,0,0,.04);
+        border-radius: 12px;
+        display: flex;
+        position: relative;
+        margin-right: 10px;
+        .fileSvg {
+            svg {
+                width: 32px;
+                height: 32px;
+            }
+        }
+        .fileContent {
+            margin-left: 10px;
+            width: 122px;
+            .title{
+                color: rgba(0,0,0,0.85);
+                font-size: 14px;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+                overflow: hidden;
+                word-break: break-all;
+            }
+            .type {
+                font-size: 11px;
+                color: rgba(0,0,0,0.3);
+            }
+        }
+        .closeSvg {
+            width: 14px;
+            height: 14px;
+            position: absolute;
+            right: 0;
+            top: 0;
+            cursor: pointer;
+        }
+    }
+}
