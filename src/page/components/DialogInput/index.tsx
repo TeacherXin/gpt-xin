@@ -11,7 +11,7 @@ import SkillList from './components/SkillList/index.js';
 import axios from 'axios';
 import { useSkillStore } from './components/SkillList/store.js';
 import FileList from './components/FileList/index.js';
-import { useFilListStore } from './components/FileList/store.js';
+import { useFilListStore, type FileItem } from './components/FileList/store.js';
 
 const { TextArea } = Input;
 let controller = new AbortController();
@@ -36,8 +36,9 @@ const DialogInput: React.FunctionComponent = () => {
     // 文件相关store
     const fileList = useFilListStore((state) => state.fileList);
     const setFileList = useFilListStore((state) => state.setFileList);
+    const clearFileList = useFilListStore((state) => state.clearFileList);
 
-    const handleBeforeUpload = (file: File) => {
+    const handleBeforeUpload = (file: FileItem) => {
         // 在这里可以获取到完整的file信息
         setFileList([...fileList, file]);
         
@@ -66,9 +67,12 @@ const DialogInput: React.FunctionComponent = () => {
             question: inputStore.inputValue,
             answer: '',
             cardId: '',
+            fileList: [...fileList],
         });
         inputStore.setInputValue('');
         inputStore.setInputLoading(true);
+        clearFileList();
+        
         const messageCallback = (message: Message) => {
             changeLastAnswer(message.content);
         };
@@ -95,7 +99,23 @@ const DialogInput: React.FunctionComponent = () => {
                 changeLastHtmlUrl(source.html);
             };
         }
-        connectSSE(url, data, callbackMap);
+        if (fileList.length > 0) {
+            const formData = new FormData();
+            fileList.forEach(file => {
+                formData.append('files', file);
+            })
+            axios.post('/api/upload', formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data', // 必须指定该类型
+                },
+            }).then((res) => {
+                data.type = 'file';
+                data.fileList = [...res.data.data];
+                connectSSE(url, data, callbackMap);
+            })
+        } else {
+            connectSSE(url, data, callbackMap);
+        }
     };
 
     const sendDataByPicture = (message: string) => {
@@ -131,7 +151,11 @@ const DialogInput: React.FunctionComponent = () => {
             />
             {dialogCardList.length === 0 && <SkillList />}
             {fileList.length > 0 && <FileList />}
-            <Upload className={styles.upload} beforeUpload={handleBeforeUpload}>
+            <Upload
+                accept='.txt'
+                className={styles.upload}
+                beforeUpload={handleBeforeUpload}
+            >
                 <UploadSvg />
             </Upload>
             {

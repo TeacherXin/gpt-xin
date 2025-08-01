@@ -1,4 +1,5 @@
 import { create } from 'zustand';
+import type { FileItem } from '../DialogInput/components/FileList/store';
 
 interface DialogCard {
     question: string;
@@ -6,6 +7,7 @@ interface DialogCard {
     cardId: string;
     isPicture?: boolean;
     htmlUrl?: string; 
+    fileList?: FileItem[];
 }
 
 interface DialogCardListStore {

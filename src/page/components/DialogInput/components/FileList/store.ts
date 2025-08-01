@@ -1,6 +1,6 @@
 import { create } from 'zustand';
 
-type FileItem = File & {
+export type FileItem = File & {
     uid: string;
 };
 

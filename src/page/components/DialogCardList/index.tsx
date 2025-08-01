@@ -7,6 +7,7 @@ import { hybrid } from 'react-syntax-highlighter/dist/esm/styles/hljs';
 import { useDialogInputStore } from '../DialogInput/store';
 import { Spin } from 'antd';
 import classNames from 'classnames';
+import FileList from '../DialogInput/components/FileList';
 
 
 const DialogCardList: React.FunctionComponent = () => {
@@ -53,6 +54,9 @@ const DialogCardList: React.FunctionComponent = () => {
                         <div className={styles.dialogCard} key={item.cardId}>
                             <div className={styles.question}>
                                 <p>{item.question}</p>
+                            </div>
+                            <div className={styles.fileList}>
+                                <FileList fileList={item.fileList} />
                             </div>
                             {
                                 item.isPicture ? (

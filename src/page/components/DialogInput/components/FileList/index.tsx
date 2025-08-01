@@ -1,13 +1,17 @@
 import { useState } from 'react';
-import { useFilListStore } from './store';
+import { useFilListStore, type FileItem } from './store';
 import styles from './index.module.css';
 import ExcelSvg from './assets/excel.svg?react'
 import WordSvg from './assets/word.svg?react'
 import TextSvg from './assets/text.svg?react'
 import CloseSvg from './assets/close.svg?react'
 
+interface FileListProps {
+    fileList?: FileItem[];
+}
 
-const FileList: React.FunctionComponent = () => {
+
+const FileList: React.FunctionComponent<FileListProps> = (props) => {
     const fileList = useFilListStore((state) => state.fileList);
     const removeFile = useFilListStore((state) => state.removeFile);
     const [showCloseId, setShowCloseId] = useState<string>('');
@@ -44,7 +48,7 @@ const FileList: React.FunctionComponent = () => {
     }
     return (
         <div className={styles.fileList}>
-            {fileList.map((file) => (
+            {(props.fileList ? props.fileList : fileList).map((file) => (
                 <div 
                     className={styles.fileItem}
                     key={file.name}

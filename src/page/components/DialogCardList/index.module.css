@@ -5,12 +5,19 @@
         width: 100%;
         color: rgba(0,0,0,0.85);
         font-size: 16px;
-        line-height: 35px;
+        .fileList {
+            width: 100%;
+            display: flex;
+            justify-content: flex-end;
+            position: relative;
+            height: 80px;
+        }
         .question {
             margin-bottom: 30px;
             width: 100%;
             display: flex;
             justify-content: flex-end;
+            line-height: 35px;
             p {
                 border-radius: 12px;
                 background-color: rgba(0,0,0,.04);
@@ -19,6 +26,7 @@
             }
         }
         .answer {
+            line-height: 35px;
             margin-bottom: 30px;
         }
     }

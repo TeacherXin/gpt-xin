@@ -27,7 +27,8 @@ interface ParseChunk {
 export interface SendData {
     message: string;
     sessionId?: string;
-    type?: 'html' | ''
+    type?: 'html' | 'file' | '';
+    fileList?: string [];
 }
 
 let abortController = new AbortController();
